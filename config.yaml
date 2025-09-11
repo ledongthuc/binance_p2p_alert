@@ -5,7 +5,7 @@ asset: "USDT"
 fiat: "VND"
 
 # Alert conditions
-max_price: 26_300.0
+max_price: 26_450.0
 min_of_max_amount: 5_000_000.0
 
 # API configuration
