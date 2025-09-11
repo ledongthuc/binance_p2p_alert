@@ -1,0 +1,12 @@
+# Binance P2P Alert Configuration
+
+# Trading pair configuration
+asset: "USDT"
+fiat: "VND"
+
+# Alert conditions
+max_price: 26_300.0
+min_of_max_amount: 5_000_000.0
+
+# API configuration
+page_size: 20
