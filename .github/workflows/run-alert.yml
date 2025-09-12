@@ -32,3 +32,6 @@ jobs:
       
     - name: Run Binance P2P Alert
       run: go run main.go
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}

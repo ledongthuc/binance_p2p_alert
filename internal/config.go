@@ -19,6 +19,8 @@ type Config struct {
 
 	// API configuration
 	PageSize int `yaml:"page_size"`
+
+	EnableSlackAlert bool `yaml:"enable_slack_alert"`
 }
 
 // LoadConfig loads configuration from a YAML file
