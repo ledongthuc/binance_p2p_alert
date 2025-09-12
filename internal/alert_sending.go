@@ -7,18 +7,10 @@ import (
 )
 
 // SendAlert sends WhatsApp alerts for matching advertisements
-func SendAlert(adsWithAlert []AdvertisementItem, config *Config) error {
-	if len(adsWithAlert) == 0 {
+func SendAlert(messageBody string) error {
+	if messageBody == "" {
 		return nil // No alerts to send
 	}
-
-	// Format the alert message
-	messageBody := FormatAlertMessage(adsWithAlert, config)
-	if messageBody == "" {
-		return fmt.Errorf("failed to format alert message")
-	}
-
-	fmt.Println(messageBody)
 
 	// Get Slack bot token from environment variable for security
 	token := os.Getenv("SLACK_BOT_TOKEN")

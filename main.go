@@ -20,10 +20,16 @@ func main() {
 		return
 	}
 	adsWithAlert := internal.CheckConditions(ads, config)
+
+	messageBody := internal.FormatAlertMessage(adsWithAlert, config)
+	if messageBody == "" {
+		return
+	}
+	fmt.Println(messageBody)
 	
 	// Send WhatsApp alert if there are matching ads
 	if config.EnableSlackAlert && len(adsWithAlert) > 0 {
-		err = internal.SendAlert(adsWithAlert, config)
+		err = internal.SendAlert(messageBody)
 		if err != nil {
 			fmt.Println("Error sending WhatsApp alert:", err)
 			return

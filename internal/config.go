@@ -14,8 +14,11 @@ type Config struct {
 	Fiat  string `yaml:"fiat"`
 
 	// Alert conditions
-	MaxPrice      float64 `yaml:"max_price"`
-	MinOfMaxAmount  float64 `yaml:"min_of_max_amount"`
+	MaxPrice      *float64 `yaml:"max_price"`
+	MinOfMaxAmount  *float64 `yaml:"min_of_max_amount"`
+
+	// Min rating of trader
+	MinRating *float64 `yaml:"min_rating"`
 
 	// API configuration
 	PageSize int `yaml:"page_size"`

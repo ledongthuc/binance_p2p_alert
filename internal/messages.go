@@ -122,6 +122,7 @@ func FormatAlertMessage(ads []AdvertisementItem, config *Config) string {
 		printer := libMessage.NewPrinter(language.English)
 		message.WriteString(fmt.Sprintf("💵 Range Amount: %s - %s %s\n", printer.Sprintf("%.2f", minSingleTransAmount), printer.Sprintf("%.2f", maxSingleTransAmount), ad.Adv.FiatUnit))
 		message.WriteString(fmt.Sprintf("👤 Trader: %s\n", ad.Advertiser.NickName))
+		message.WriteString(fmt.Sprintf("👤 Positive Rate: %s%\n", printer.Sprintf("%.2f", ad.Advertiser.PositiveRate * 100)))
 		message.WriteString("\n")
 		if len(ads) > 3 && index >= 3 {
 			break
