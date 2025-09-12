@@ -1,6 +1,12 @@
 package internal
 
-// No imports needed for this file
+import (
+	"fmt"
+	"strconv"
+	"strings"
+	"golang.org/x/text/language"
+	libMessage "golang.org/x/text/message"
+)
 
 type Request struct {
 	Asset     string `json:"asset"`
@@ -91,4 +97,36 @@ type Advertiser struct {
 	IsBlocked          bool      `json:"isBlocked"`
 	ActiveTimeInSecond int       `json:"activeTimeInSecond"`
 	TagIconUrls        []string  `json:"tagIconUrls"`
+}
+
+// FormatAlertMessage creates a formatted message for WhatsApp alerts
+func FormatAlertMessage(ads []AdvertisementItem, config *Config) string {
+	if len(ads) == 0 {
+		return ""
+	}
+
+	var message strings.Builder
+	message.WriteString("🚨 *Binance P2P Alert*\n\n")
+	message.WriteString(fmt.Sprintf("Found %d ads matching your criteria:\n\n", len(ads)))
+	for index, ad := range ads {
+		message.WriteString(fmt.Sprintf("💰 Price: %s %s\n", ad.Adv.Price, ad.Adv.FiatUnit))
+		minSingleTransAmount, err := strconv.ParseFloat(ad.Adv.MinSingleTransAmount, 64)
+		if err != nil {
+			minSingleTransAmount = 0
+		}
+		maxSingleTransAmount, err := strconv.ParseFloat(ad.Adv.MaxSingleTransAmount, 64)
+		if err != nil {
+			maxSingleTransAmount = 0
+		}
+
+		printer := libMessage.NewPrinter(language.English)
+		message.WriteString(fmt.Sprintf("💵 Range Amount: %s - %s %s\n", printer.Sprintf("%.2f", minSingleTransAmount), printer.Sprintf("%.2f", maxSingleTransAmount), ad.Adv.FiatUnit))
+		message.WriteString(fmt.Sprintf("👤 Trader: %s\n", ad.Advertiser.NickName))
+		message.WriteString("\n")
+		if len(ads) > 3 && index >= 3 {
+			break
+		}
+	}
+	message.WriteString(fmt.Sprintf("Check more ads at: https://p2p.binance.com/trade/all-payments/%s?fiat=%s", config.Asset, config.Fiat))
+	return message.String()
 }

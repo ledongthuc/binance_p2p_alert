@@ -20,5 +20,15 @@ func main() {
 		return
 	}
 	adsWithAlert := internal.CheckConditions(ads, config)
-	fmt.Println("Total ads with alert:", len(adsWithAlert))
+	
+	// Send WhatsApp alert if there are matching ads
+	if len(adsWithAlert) > 0 {
+		err = internal.SendAlert(adsWithAlert, config)
+		if err != nil {
+			fmt.Println("Error sending WhatsApp alert:", err)
+			return
+		}
+	} else {
+		fmt.Println("No ads matching criteria found.")
+	}
 }

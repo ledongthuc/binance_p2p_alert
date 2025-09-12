@@ -10,3 +10,11 @@ min_of_max_amount: 5_000_000.0
 
 # API configuration
 page_size: 20
+
+# WhatsApp configuration
+whatsapp:
+  api_version: "v18.0"  # Replace with your WhatsApp API version
+  access_token: "YOUR_ACCESS_TOKEN"  # Replace with your WhatsApp access token
+  business_phone_number_id: "YOUR_BUSINESS_PHONE_NUMBER_ID"  # Replace with your business phone number ID
+  user_phone_number: "YOUR_WHATSAPP_PHONE_NUMBER"  # Replace with recipient phone number (include country code, e.g., "1234567890")
+  enable_link_preview: true
