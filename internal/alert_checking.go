@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -11,7 +10,6 @@ func CheckConditions(ads *Response, config *Config) []AdvertisementItem {
 		if config.MaxPrice != nil {
 			price, err := strconv.ParseFloat(ad.Adv.Price, 64)
 			if err != nil || price > *config.MaxPrice {
-				fmt.Println("price", price, "maxPrice", *config.MaxPrice)
 				continue
 			}
 		}
@@ -19,7 +17,6 @@ func CheckConditions(ads *Response, config *Config) []AdvertisementItem {
 		if config.MinOfMaxAmount != nil {
 			maxAmount, err := strconv.ParseFloat(ad.Adv.MaxSingleTransAmount, 64)
 			if err != nil || maxAmount < *config.MinOfMaxAmount {
-				fmt.Println("maxAmount", maxAmount, "minOfMaxAmount", *config.MinOfMaxAmount)
 				continue
 			}
 		}

@@ -105,11 +105,16 @@ func FormatAlertMessage(ads []AdvertisementItem, config *Config) string {
 		return ""
 	}
 
+	printer := libMessage.NewPrinter(language.English)
 	var message strings.Builder
-	message.WriteString("🚨 *Binance P2P Alert*\n\n")
+	message.WriteString("--------------------------------\n🚨 *Binance P2P Alert*\n--------------------------------\n\n")
 	message.WriteString(fmt.Sprintf("Found %d ads matching your criteria:\n\n", len(ads)))
 	for index, ad := range ads {
-		message.WriteString(fmt.Sprintf("💰 Price: %s %s\n", ad.Adv.Price, ad.Adv.FiatUnit))
+		price, err := strconv.ParseFloat(ad.Adv.Price, 64)
+		if err != nil {
+			price = 0
+		}
+		message.WriteString(fmt.Sprintf("💰 Price: %s %s\n", printer.Sprintf("%.2f", price), ad.Adv.FiatUnit))
 		minSingleTransAmount, err := strconv.ParseFloat(ad.Adv.MinSingleTransAmount, 64)
 		if err != nil {
 			minSingleTransAmount = 0
@@ -119,11 +124,9 @@ func FormatAlertMessage(ads []AdvertisementItem, config *Config) string {
 			maxSingleTransAmount = 0
 		}
 
-		printer := libMessage.NewPrinter(language.English)
 		message.WriteString(fmt.Sprintf("💵 Range Amount: %s - %s %s\n", printer.Sprintf("%.2f", minSingleTransAmount), printer.Sprintf("%.2f", maxSingleTransAmount), ad.Adv.FiatUnit))
 		message.WriteString(fmt.Sprintf("👤 Trader: %s\n", ad.Advertiser.NickName))
-		message.WriteString(fmt.Sprintf("👤 Positive Rate: %s%\n", printer.Sprintf("%.2f", ad.Advertiser.PositiveRate * 100)))
-		message.WriteString("\n")
+		message.WriteString(fmt.Sprintf("⭐ Positive Rate: %s%%\n\n", printer.Sprintf("%.2f", (ad.Advertiser.PositiveRate * 100))))
 		if len(ads) > 3 && index >= 3 {
 			break
 		}
